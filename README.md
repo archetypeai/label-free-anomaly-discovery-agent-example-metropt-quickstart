@@ -184,8 +184,10 @@ python prep/preflight.py          # 1c: the files against od's rules, read-only
   - `gaps`: 331 gaps over a minute, when the train is out of service. Nothing is
     interpolated across one;
   - `frozen logger`: stretches where every channel holds one value for 30 minutes or
-    more, which a working compressor can't produce. 1b cuts them out. Left in, these
-    15–62-hour freezes would top the ranking as the most unusual hours in the data.
+    more, which a working compressor can't produce. 1b cuts them out. Left in, they crowd
+    the top of the ranking: on file A, all 36 frozen hours were flagged and took ranks 3 to
+    ~40, pushing most of leak #1 from ranks 3–36 down to 42 and below (its AUROC fell from
+    0.974 to 0.883).
 - **1b** builds the 10 s grid, cuts the frozen stretches (170 hours of the 7 months), and
   writes the three files by date. **Expect:**
   ```

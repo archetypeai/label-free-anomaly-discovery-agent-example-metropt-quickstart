@@ -77,9 +77,10 @@ def main() -> int:
             done = gone("DELETE", f"/agents/blueprints/{oid}")
         else:
             left = od_api.request("GET", f"/agents/blueprints?project_id={oid}&limit=10")["data"]
-            done = not left and gone("DELETE", f"/projects/{oid}")
             if left:
-                print(f"    project {oid} still holds {len(left)} blueprint(s); kept")
+                print(f"  kept    project {oid}: it still holds {len(left)} other blueprint(s)")
+                continue
+            done = gone("DELETE", f"/projects/{oid}")
         print(f"  {'deleted' if done else 'FAILED '} {kind} {oid}")
         ok &= done
     if ok:
