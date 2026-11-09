@@ -1,0 +1,14 @@
+# API credentials
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.DS_Store
+
+# Stage 0's download (218 MB): rebuilt by prep/download.py
+data/raw/
+
+# Platform ids of your own run (out/discover_state.json): per account and deployment
+out/

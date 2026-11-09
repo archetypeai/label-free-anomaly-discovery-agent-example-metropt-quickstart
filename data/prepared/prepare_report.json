@@ -1,0 +1,39 @@
+{
+ "step_s": 10,
+ "channels": [
+  "TP2",
+  "TP3",
+  "H1",
+  "DV_pressure",
+  "Reservoirs",
+  "Oil_temperature",
+  "Motor_current"
+ ],
+ "frozen_rows_cut": 61186,
+ "files": {
+  "A": {
+   "file": "data/prepared/metropt_A.csv",
+   "from": "2020-04-04",
+   "to": "2020-04-25",
+   "rows": 144719,
+   "days_of_data": 16.7,
+   "pieces": 41
+  },
+  "B": {
+   "file": "data/prepared/metropt_B.csv",
+   "from": "2020-07-01",
+   "to": "2020-07-22",
+   "rows": 147518,
+   "days_of_data": 17.1,
+   "pieces": 47
+  },
+  "C": {
+   "file": "data/prepared/metropt_C.csv",
+   "from": "2020-03-01",
+   "to": "2020-03-22",
+   "rows": 152515,
+   "days_of_data": 17.7,
+   "pieces": 37
+  }
+ }
+}
