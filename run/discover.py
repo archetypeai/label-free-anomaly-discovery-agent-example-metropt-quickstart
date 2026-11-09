@@ -49,7 +49,7 @@ def setup(st: dict) -> None:
     st["endpoint"] = od_api.root()
     if "project" not in st:
         st["project"] = od_api.find_project(PROJECT) or od_api.request(
-            "POST", "/projects", {"name": PROJECT, "description": "Label-free anomaly discovery on MetroPT-3"})["id"]
+            "POST", "/projects", {"name": PROJECT, "description": "Label-Free Anomaly Discovery agent on MetroPT-3"})["id"]
         write_json(STATE, st)
     log(f"project    {st['project']} ({PROJECT})")
     if "blueprint" not in st:
