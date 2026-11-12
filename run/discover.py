@@ -53,7 +53,8 @@ def setup(st: dict) -> None:
         write_json(STATE, st)
     log(f"project    {st['project']} ({PROJECT})")
     if "blueprint" not in st:
-        found = od_api.request("GET", f"/agents/blueprints?project_id={st['project']}&key={BLUEPRINT_KEY}")["data"]
+        found = [b for b in od_api.request("GET", f"/agents/blueprints?project_id={st['project']}&key={BLUEPRINT_KEY}")["data"]
+                 if b.get("blueprint_key") == BLUEPRINT_KEY]
         st["blueprint"] = found[0]["id"] if found else od_api.request(
             "POST", "/agents/blueprints/od/copy",
             {"project_id": st["project"], "blueprint_key": BLUEPRINT_KEY, "name": "Label-Free AD MetroPT",
@@ -61,13 +62,30 @@ def setup(st: dict) -> None:
         st["values"] = VALUES
         write_json(STATE, st)
     log(f"blueprint  {st['blueprint']} ({BLUEPRINT_KEY}: copy of od, window {WINDOW}, step {WINDOW})")
+    # A failed or deleted package never becomes ready: drop it, and the deployment made from it,
+    # so this run builds a new one instead of every rerun stopping on it.
+    if "package" in st and od_api.status_of(f"/agents/packages/{st['package']}") in {None, *od_api.TERMINAL_BAD}:
+        log(f"package    {st['package']} failed or is gone: deleting it and building a new one")
+        try:                                     # the deployment first: it holds the package
+            d = od_api.status_of(f"/agents/deployments/{st['deployment']}") if st.get("deployment") else None
+            if d is not None:
+                if d not in {"stopped", "failed"}:
+                    od_api.request("POST", f"/agents/deployments/{st['deployment']}/stop", {}, idempotent=True)
+                od_api.request("DELETE", f"/agents/deployments/{st['deployment']}", raw=True)
+            if od_api.status_of(f"/agents/packages/{st['package']}") is not None:
+                od_api.request("DELETE", f"/agents/packages/{st['package']}", raw=True)
+        except SystemExit as e:
+            raise SystemExit(f"{e}\nrun run/cleanup.py --yes, then rerun")
+        for k in ("deployment", "package"):
+            st.pop(k, None)
+        write_json(STATE, st)
     if "package" not in st:
         st["package"] = od_api.request("POST", "/agents/packages", {
             "blueprint_ids": [st["blueprint"]], "target": {"kind": "platform"}, "name": "Label-Free AD MetroPT"})["id"]
         write_json(STATE, st)
     od_api.wait(f"/agents/packages/{st['package']}", {"ready"}, label=f"package    {st['package']}")
-    if "deployment" not in st or od_api.request("GET", f"/agents/deployments/{st['deployment']}").get("status") \
-            in od_api.TERMINAL_BAD:
+    if "deployment" not in st or od_api.status_of(f"/agents/deployments/{st['deployment']}") \
+            in {None, *od_api.TERMINAL_BAD}:
         st["deployment"] = od_api.request("POST", "/agents/deployments",
                                           {"package_id": st["package"], "kind": "batch"})["id"]
         write_json(STATE, st)
@@ -103,7 +121,12 @@ def main() -> int:
             log(f"{name}: {rel(out)} already complete (--rerun to redo)")
             continue
         run = runs.get(name, {})
-        if args.rerun or "session" not in run or run.get("status") in od_api.TERMINAL_BAD:
+        if args.rerun or "session" not in run or run.get("status") in {*od_api.TERMINAL_BAD, "incomplete"}:
+            if run.get("session"):                # the one it replaces: cancelled if still going, and deleted
+                try:
+                    od_api.end_session(run["session"])
+                except SystemExit as e:
+                    log(f"{name}: could not end {run['session']}: {e}; run/cleanup.py retries it")
             # File ids are file names: a timestamped name never replaces one a session is reading.
             fid = od_api.upload(src, f"od-metropt-qs-{src.stem}-{stamp}.csv")
             ses = od_api.request("POST", "/agents/sessions", {
@@ -112,14 +135,24 @@ def main() -> int:
             write_json(STATE, st)
             log(f"{name}: uploaded {fid}, session {ses}")
 
+    missing = []
     for name in args.files:
         run = runs.get(name)
         out, src = output_file(name), prepared_file(name)
         if not run or (out.exists() and not args.rerun and not check(out, src)):
             continue
         t0 = time.time()
-        ses = od_api.wait(f"/agents/sessions/{run['session']}", {"completed"}, every_s=10, timeout_s=3600,
-                          label=f"{name}: session {run['session']}")
+        try:
+            ses = od_api.wait(f"/agents/sessions/{run['session']}", {"completed"}, every_s=10, timeout_s=3600,
+                              label=f"{name}: session {run['session']}")
+        except SystemExit as e:                  # failed or timed out: the next run starts a new session
+            run["status"] = od_api.status_of(f"/agents/sessions/{run['session']}") or "failed"
+            if run["status"] not in od_api.TERMINAL_BAD:
+                run["status"] = "failed"
+            write_json(STATE, st)
+            log(f"{name}: {e}")
+            missing.append(name)
+            continue
         run["status"] = ses["status"]
         for attempt in range(40):                # a completed session can still be writing its output
             out.parent.mkdir(parents=True, exist_ok=True)
@@ -128,13 +161,20 @@ def main() -> int:
             if not problem:
                 break
             time.sleep(15)
-        else:
-            raise SystemExit(f"{name}: output incomplete: {problem}")
+        else:                                    # completed, but short: the next run starts a new session
+            run["status"] = "incomplete"
+            write_json(STATE, st)
+            log(f"{name}: output incomplete after 10 min: {problem}")
+            missing.append(name)
+            continue
         o = pd.read_csv(out)
         inv = o.invalid.astype(str).str.lower().eq("true")
         log(f"{name}: {len(o)} windows, {int(inv.sum())} invalid (cross a gap), "
             f"{int((o.predicted_label == 'anomaly').sum())} over 1.5; {time.time() - t0:.0f} s -> {rel(out)}")
         write_json(STATE, st)
+    if missing:
+        log(f"{len(missing)} file(s) without a complete output ({', '.join(missing)}): rerun to start new sessions")
+        return 1
     return 0
 
 

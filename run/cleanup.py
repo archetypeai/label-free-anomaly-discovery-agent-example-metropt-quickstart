@@ -26,7 +26,7 @@ from common import OUT, read_json, rel, write_json  # noqa: E402
 def gone(method: str, path: str, body=None) -> bool:
     """Make a call; True when it worked or the object is already gone (404)."""
     try:
-        od_api.request(method, path, body)
+        od_api.request(method, path, body, idempotent=True)   # only GET, DELETE, cancel and stop come here
         return True
     except SystemExit as e:
         if " -> 404" in str(e):
@@ -48,8 +48,8 @@ def main() -> int:
     sessions = {r["session"] for r in st.get("runs", {}).values() if r.get("session")}
     if st.get("deployment"):
         try:
-            sessions |= {s["id"] for s in od_api.request(
-                "GET", f"/agents/sessions?deployment_id={st['deployment']}&limit=1000")["data"]}
+            sessions |= {s["id"] for s in od_api.list_all(f"/agents/sessions?deployment_id={st['deployment']}")
+                         if s.get("deployment_id", st["deployment"]) == st["deployment"]}
         except SystemExit:
             pass
     plan = [*(("session", s) for s in sorted(sessions)), ("deployment", st.get("deployment")),
@@ -76,11 +76,15 @@ def main() -> int:
         elif kind == "blueprint":
             done = gone("DELETE", f"/agents/blueprints/{oid}")
         else:
-            left = od_api.request("GET", f"/agents/blueprints?project_id={oid}&limit=10")["data"]
+            try:
+                left = od_api.request("GET", f"/agents/blueprints?project_id={oid}&limit=10")["data"]
+            except SystemExit as e:
+                print(f"    {e}")
+                left = None
             if left:
                 print(f"  kept    project {oid}: it still holds {len(left)} other blueprint(s)")
                 continue
-            done = gone("DELETE", f"/projects/{oid}")
+            done = left is not None and gone("DELETE", f"/projects/{oid}")
         print(f"  {'deleted' if done else 'FAILED '} {kind} {oid}")
         ok &= done
     if ok:

@@ -80,8 +80,13 @@ def _auth() -> dict:
     return {"Authorization": f"Bearer {os.environ['ATAI_API_KEY']}"}
 
 
-def request(method: str, path: str, body=None, raw: bool = False, retries: int = 4):
-    """One call; retries network errors and 5xx, raises SystemExit on a 4xx."""
+def request(method: str, path: str, body=None, raw: bool = False, retries: int = 4,
+            idempotent: bool | None = None):
+    """One call; raises SystemExit on a 4xx. GET, HEAD and DELETE retry network errors and
+    5xx, and so do POSTs marked idempotent (cancel, stop); a create POST never does, since a
+    repeat could make a second object that nothing records."""
+    if not (method in ("GET", "HEAD", "DELETE") if idempotent is None else idempotent):
+        retries = 0
     url = path if path.startswith("http") else api() + path
     data = json.dumps(body).encode() if body is not None else None
     headers = {**_auth(), **({"Content-Type": "application/json"} if data else {})}
@@ -128,9 +133,41 @@ def wait(path: str, ok: set, every_s: int = 5, timeout_s: int = 1800, label: str
     raise SystemExit(f"{path}: still {last} after {timeout_s} s")
 
 
+def list_all(path: str) -> list:
+    """Every item of a paginated list; the cursor is opaque and passed back as is."""
+    items, after = [], ""
+    sep = "&" if "?" in path else "?"
+    while True:
+        page = request("GET", f"{path}{sep}limit=1000{after}")
+        items += page.get("data", [])
+        if not page.get("has_more"):
+            return items
+        after = f"&after={page['next_cursor']}"
+
+
 def find_project(name: str) -> str | None:
-    found = [p for p in request("GET", "/projects?limit=1000")["data"] if p["name"] == name]
+    found = [p for p in list_all("/projects") if p["name"] == name]
     return found[0]["id"] if found else None
+
+
+def status_of(path: str) -> str | None:
+    """An object's status, or None once it is gone (404)."""
+    try:
+        return request("GET", path).get("status")
+    except SystemExit as e:
+        if " -> 404" in str(e):
+            return None
+        raise
+
+
+def end_session(session_id: str) -> None:
+    """Cancel a session still going, then delete it; one already gone counts as done."""
+    s = status_of(f"/agents/sessions/{session_id}")
+    if s is None:
+        return
+    if s in {"pending", "running", "paused"}:
+        request("POST", f"/agents/sessions/{session_id}/cancel", {}, idempotent=True)
+    request("DELETE", f"/agents/sessions/{session_id}", raw=True)
 
 
 def download_result(session_id: str) -> bytes:
