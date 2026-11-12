@@ -138,8 +138,8 @@ pip install -r requirements.txt          # numpy, pandas; the platform calls use
 `.env` wins over `ATAI_API_KEY` / `ATAI_API_ENDPOINT` exported in your shell: keys are per
 deployment, and a key exported for another one is the usual reason a first call fails.
 Every platform script prints the endpoint and the key's last 4 characters it uses. The
-endpoint can be the bare deployment root or end in `/api`. `od` is available on staging
-(`https://platform.stage.u1.archetypeai.app`) as of November 2026.
+endpoint can be the bare deployment root or end in `/api`. `od` is available on production
+(`https://platform.u1.archetypeai.app`) as of November 2026.
 
 **Skip to Stage 2.** The three input files are already prepared and in the repo
 (`data/prepared/metropt_{A,B,C}.csv`), so you don't need to download or prepare anything:
@@ -275,7 +275,10 @@ The platform run, on Agent Lifecycle 2.0. Every object lives in one project:
 
 No optimization, no promotion, no fitted model: `od` has nothing to train ahead of time.
 The ids go to `out/discover_state.json`, so a rerun resumes, and an output is downloaded
-again until it has a row for every window. **Expect** (~1.5 min):
+again until it has a row for every window. A rerun also replaces what can't finish: a failed
+package is deleted and built again, and a session that failed, or whose output stayed short
+for 10 minutes, is ended and gets a new one; the other files go on meanwhile. **Expect**
+(~1.5 min on production, 2026-11-12):
 
 ```
 A: 401 windows, 26 invalid (cross a gap), 55 over 1.5
@@ -342,7 +345,7 @@ Flagged windows that follow each other merge into an **episode**, ranked by its 
 score. For each, what stands out in the input itself:
 every channel's level (mean) and spread (std) over the episode, as a robust z against the
 file's usual hour, and how much of the time the compressor runs, and runs under load (from
-`Motor_current`). No label or report is read. **Expect:**
+`Motor_current`). No label or report is read. **Expect** (the first episodes of each file):
 
 ```
 === File A: 375 hours scored; 55 flagged (score over 1.5) in 9 episodes; usually the compressor runs 32% of an hour, under load 7%.
@@ -388,7 +391,7 @@ Per file: the **AUROC** of the reported leak's hours against all other hours (th
 that a leak hour outranks an ordinary one: 1.0 is perfect, 0.5 is chance), the ranks the
 leak's hours reached, and the first flag. A leak builds before anyone reports it, so a flag up to `--lead-h` (24) hours before
 the report's start counts as early. Then each Stage 3 episode as matching a report or not.
-**Expect:**
+**Expect** (each file's summary; the episodes follow it):
 
 ```
 === File A: 2020-04-04 to 2020-04-25, 375 valid hours, 1 reported failure
@@ -463,6 +466,9 @@ the copy of `od`, then the project if nothing else is left in it. Uploaded files
 object already gone counts as done, so a rerun finishes an interrupted cleanup.
 
 ## Results
+
+Our run on production (2026-11-12), with a member key in a new project. An earlier run on
+another deployment gave the same labels, episodes and grades, with scores within 3×10⁻⁶.
 
 | stage | measure | result |
 |---|---|---|
