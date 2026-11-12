@@ -1,0 +1,242 @@
+{
+ "A": [
+  {
+   "rank": 1,
+   "start": "Sun Apr 12 11:44",
+   "end": "Sun Apr 12 23:44",
+   "hours": 12,
+   "peak": 3.875,
+   "motor_on": 0.99,
+   "under_load": 0.88,
+   "stands_out": "DV_pressure level +91, TP2 level +22, H1 level -22",
+   "start_epoch": 1586691890,
+   "end_epoch": 1586735080
+  },
+  {
+   "rank": 2,
+   "start": "Sat Apr 18 01:15",
+   "end": "Sun Apr 19 01:15",
+   "hours": 24,
+   "peak": 3.0,
+   "motor_on": 1.0,
+   "under_load": 0.85,
+   "stands_out": "DV_pressure level +101, H1 level -22, TP2 level +20",
+   "start_epoch": 1587172540,
+   "end_epoch": 1587258930
+  },
+  {
+   "rank": 3,
+   "start": "Sun Apr 19 02:42",
+   "end": "Sun Apr 19 03:42",
+   "hours": 1,
+   "peak": 2.586,
+   "motor_on": 0.48,
+   "under_load": 0.11,
+   "stands_out": "Reservoirs spread +15, TP3 spread +15, H1 spread +3",
+   "start_epoch": 1587264140,
+   "end_epoch": 1587267730
+  },
+  {
+   "rank": 4,
+   "start": "Sun Apr 12 04:44",
+   "end": "Sun Apr 12 05:44",
+   "hours": 1,
+   "peak": 2.538,
+   "motor_on": 0.46,
+   "under_load": 0.12,
+   "stands_out": "Reservoirs spread +10, TP3 spread +10, Oil_temperature spread +3",
+   "start_epoch": 1586666690,
+   "end_epoch": 1586670280
+  },
+  {
+   "rank": 5,
+   "start": "Mon Apr 06 09:58",
+   "end": "Mon Apr 06 11:58",
+   "hours": 2,
+   "peak": 2.296,
+   "motor_on": 0.26,
+   "under_load": 0.07,
+   "stands_out": "H1 level -5, Reservoirs spread +4, TP3 spread +4",
+   "start_epoch": 1586167130,
+   "end_epoch": 1586174320
+  },
+  {
+   "rank": 6,
+   "start": "Mon Apr 06 15:08",
+   "end": "Tue Apr 07 03:08",
+   "start_epoch": 1586185710,
+   "end_epoch": 1586228900,
+   "hours": 12,
+   "peak": 2.029
+  },
+  {
+   "rank": 7,
+   "start": "Sat Apr 04 02:32",
+   "end": "Sat Apr 04 03:32",
+   "start_epoch": 1585967540,
+   "end_epoch": 1585971130,
+   "hours": 1,
+   "peak": 1.806
+  },
+  {
+   "rank": 8,
+   "start": "Wed Apr 15 21:15",
+   "end": "Wed Apr 15 22:15",
+   "start_epoch": 1586985330,
+   "end_epoch": 1586988920,
+   "hours": 1,
+   "peak": 1.654
+  },
+  {
+   "rank": 9,
+   "start": "Thu Apr 16 10:09",
+   "end": "Thu Apr 16 11:09",
+   "start_epoch": 1587031750,
+   "end_epoch": 1587035340,
+   "hours": 1,
+   "peak": 1.544
+  }
+ ],
+ "B": [
+  {
+   "rank": 1,
+   "start": "Wed Jul 15 00:20",
+   "end": "Wed Jul 15 17:20",
+   "hours": 17,
+   "peak": 5.254,
+   "motor_on": 1.0,
+   "under_load": 0.46,
+   "stands_out": "Motor_current spread -19, H1 level -6, TP2 level +5",
+   "start_epoch": 1594772430,
+   "end_epoch": 1594833620
+  },
+  {
+   "rank": 2,
+   "start": "Wed Jul 08 17:50",
+   "end": "Wed Jul 08 19:50",
+   "hours": 2,
+   "peak": 4.539,
+   "motor_on": 0.9,
+   "under_load": 0.38,
+   "stands_out": "TP3 spread +48, Reservoirs spread +48, Reservoirs level -17",
+   "start_epoch": 1594230610,
+   "end_epoch": 1594237800
+  },
+  {
+   "rank": 3,
+   "start": "Tue Jul 14 01:09",
+   "end": "Tue Jul 14 03:09",
+   "hours": 2,
+   "peak": 4.119,
+   "motor_on": 0.25,
+   "under_load": 0.06,
+   "stands_out": "TP3 spread +18, Reservoirs spread +18, Reservoirs level -15",
+   "start_epoch": 1594688950,
+   "end_epoch": 1594696140
+  },
+  {
+   "rank": 4,
+   "start": "Wed Jul 15 18:22",
+   "end": "Wed Jul 15 19:22",
+   "hours": 1,
+   "peak": 3.198,
+   "motor_on": 0.89,
+   "under_load": 0.13,
+   "stands_out": "TP3 spread +31, Reservoirs spread +30, Reservoirs level -14",
+   "start_epoch": 1594837350,
+   "end_epoch": 1594840940
+  },
+  {
+   "rank": 5,
+   "start": "Fri Jul 17 05:28",
+   "end": "Fri Jul 17 08:28",
+   "hours": 3,
+   "peak": 2.124,
+   "motor_on": 0.58,
+   "under_load": 0.12,
+   "stands_out": "TP3 spread +11, Reservoirs spread +11, H1 level -2",
+   "start_epoch": 1594963730,
+   "end_epoch": 1594974520
+  },
+  {
+   "rank": 6,
+   "start": "Wed Jul 08 20:50",
+   "end": "Wed Jul 08 21:50",
+   "start_epoch": 1594241410,
+   "end_epoch": 1594245000,
+   "hours": 1,
+   "peak": 2.021
+  },
+  {
+   "rank": 7,
+   "start": "Mon Jul 06 15:30",
+   "end": "Mon Jul 06 16:30",
+   "start_epoch": 1594049440,
+   "end_epoch": 1594053030,
+   "hours": 1,
+   "peak": 1.874
+  }
+ ],
+ "C": [
+  {
+   "rank": 1,
+   "start": "Wed Mar 11 23:49",
+   "end": "Thu Mar 12 12:49",
+   "hours": 13,
+   "peak": 4.548,
+   "motor_on": 0.94,
+   "under_load": 0.82,
+   "stands_out": "DV_pressure level +64, H1 level -15, TP2 level +12",
+   "start_epoch": 1583970580,
+   "end_epoch": 1584017370
+  },
+  {
+   "rank": 2,
+   "start": "Wed Mar 11 05:18",
+   "end": "Wed Mar 11 06:18",
+   "hours": 1,
+   "peak": 2.966,
+   "motor_on": 0.98,
+   "under_load": 0.77,
+   "stands_out": "DV_pressure level +60, H1 level -13, TP2 level +9",
+   "start_epoch": 1583903890,
+   "end_epoch": 1583907480
+  },
+  {
+   "rank": 3,
+   "start": "Fri Mar 06 21:34",
+   "end": "Fri Mar 06 23:34",
+   "hours": 2,
+   "peak": 2.675,
+   "motor_on": 0.92,
+   "under_load": 0.63,
+   "stands_out": "DV_pressure level +33, H1 level -10, TP2 level +8",
+   "start_epoch": 1583530470,
+   "end_epoch": 1583537660
+  },
+  {
+   "rank": 4,
+   "start": "Mon Mar 09 07:16",
+   "end": "Mon Mar 09 08:16",
+   "hours": 1,
+   "peak": 2.062,
+   "motor_on": 0.59,
+   "under_load": 0.47,
+   "stands_out": "DV_pressure level +26, H1 level -6, Oil_temperature spread +6",
+   "start_epoch": 1583738190,
+   "end_epoch": 1583741780
+  },
+  {
+   "rank": 5,
+   "start": "Tue Mar 10 07:18",
+   "end": "Tue Mar 10 08:18",
+   "hours": 1,
+   "peak": 1.582,
+   "motor_on": 0.72,
+   "under_load": 0.39,
+   "stands_out": "DV_pressure level +17, H1 level -5, TP2 level +4",
+   "start_epoch": 1583824690,
+   "end_epoch": 1583828280
+  }
+ ]
+}

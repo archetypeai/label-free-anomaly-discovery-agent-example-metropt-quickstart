@@ -1,0 +1,239 @@
+{
+ "lead_h": 24,
+ "files": {
+  "A": {
+   "reports": [
+    {
+     "report": 1,
+     "start": "2020-04-18 00:00",
+     "end": "2020-04-18 23:59",
+     "leak_windows": 23,
+     "auroc": 0.974,
+     "ranks": [
+      3,
+      4,
+      7,
+      10,
+      11,
+      13,
+      14,
+      15,
+      16,
+      18,
+      19,
+      23,
+      24,
+      25,
+      26,
+      27,
+      29,
+      30,
+      31,
+      33,
+      34,
+      35,
+      36
+     ],
+     "flagged": 23,
+     "first_flag_h": 2.26
+    }
+   ],
+   "episodes": [
+    {
+     "rank": 1,
+     "start": "Sun Apr 12 11:44",
+     "end": "Sun Apr 12 23:44",
+     "hours": 12,
+     "peak": 3.875,
+     "report": null
+    },
+    {
+     "rank": 2,
+     "start": "Sat Apr 18 01:15",
+     "end": "Sun Apr 19 01:15",
+     "hours": 24,
+     "peak": 3.0,
+     "report": 1
+    },
+    {
+     "rank": 3,
+     "start": "Sun Apr 19 02:42",
+     "end": "Sun Apr 19 03:42",
+     "hours": 1,
+     "peak": 2.586,
+     "report": null
+    },
+    {
+     "rank": 4,
+     "start": "Sun Apr 12 04:44",
+     "end": "Sun Apr 12 05:44",
+     "hours": 1,
+     "peak": 2.538,
+     "report": null
+    },
+    {
+     "rank": 5,
+     "start": "Mon Apr 06 09:58",
+     "end": "Mon Apr 06 11:58",
+     "hours": 2,
+     "peak": 2.296,
+     "report": null
+    },
+    {
+     "rank": 6,
+     "start": "Mon Apr 06 15:08",
+     "end": "Tue Apr 07 03:08",
+     "hours": 12,
+     "peak": 2.029,
+     "report": null
+    },
+    {
+     "rank": 7,
+     "start": "Sat Apr 04 02:32",
+     "end": "Sat Apr 04 03:32",
+     "hours": 1,
+     "peak": 1.806,
+     "report": null
+    },
+    {
+     "rank": 8,
+     "start": "Wed Apr 15 21:15",
+     "end": "Wed Apr 15 22:15",
+     "hours": 1,
+     "peak": 1.654,
+     "report": null
+    },
+    {
+     "rank": 9,
+     "start": "Thu Apr 16 10:09",
+     "end": "Thu Apr 16 11:09",
+     "hours": 1,
+     "peak": 1.544,
+     "report": null
+    }
+   ]
+  },
+  "B": {
+   "reports": [
+    {
+     "report": 4,
+     "start": "2020-07-15 14:30",
+     "end": "2020-07-15 19:00",
+     "leak_windows": 4,
+     "auroc": 0.997,
+     "ranks": [
+      1,
+      2,
+      5,
+      6
+     ],
+     "flagged": 4,
+     "first_flag_h": -13.16
+    }
+   ],
+   "episodes": [
+    {
+     "rank": 1,
+     "start": "Wed Jul 15 00:20",
+     "end": "Wed Jul 15 17:20",
+     "hours": 17,
+     "peak": 5.254,
+     "report": 4
+    },
+    {
+     "rank": 2,
+     "start": "Wed Jul 08 17:50",
+     "end": "Wed Jul 08 19:50",
+     "hours": 2,
+     "peak": 4.539,
+     "report": null
+    },
+    {
+     "rank": 3,
+     "start": "Tue Jul 14 01:09",
+     "end": "Tue Jul 14 03:09",
+     "hours": 2,
+     "peak": 4.119,
+     "report": null
+    },
+    {
+     "rank": 4,
+     "start": "Wed Jul 15 18:22",
+     "end": "Wed Jul 15 19:22",
+     "hours": 1,
+     "peak": 3.198,
+     "report": 4
+    },
+    {
+     "rank": 5,
+     "start": "Fri Jul 17 05:28",
+     "end": "Fri Jul 17 08:28",
+     "hours": 3,
+     "peak": 2.124,
+     "report": null
+    },
+    {
+     "rank": 6,
+     "start": "Wed Jul 08 20:50",
+     "end": "Wed Jul 08 21:50",
+     "hours": 1,
+     "peak": 2.021,
+     "report": null
+    },
+    {
+     "rank": 7,
+     "start": "Mon Jul 06 15:30",
+     "end": "Mon Jul 06 16:30",
+     "hours": 1,
+     "peak": 1.874,
+     "report": null
+    }
+   ]
+  },
+  "C": {
+   "reports": [],
+   "episodes": [
+    {
+     "rank": 1,
+     "start": "Wed Mar 11 23:49",
+     "end": "Thu Mar 12 12:49",
+     "hours": 13,
+     "peak": 4.548,
+     "report": null
+    },
+    {
+     "rank": 2,
+     "start": "Wed Mar 11 05:18",
+     "end": "Wed Mar 11 06:18",
+     "hours": 1,
+     "peak": 2.966,
+     "report": null
+    },
+    {
+     "rank": 3,
+     "start": "Fri Mar 06 21:34",
+     "end": "Fri Mar 06 23:34",
+     "hours": 2,
+     "peak": 2.675,
+     "report": null
+    },
+    {
+     "rank": 4,
+     "start": "Mon Mar 09 07:16",
+     "end": "Mon Mar 09 08:16",
+     "hours": 1,
+     "peak": 2.062,
+     "report": null
+    },
+    {
+     "rank": 5,
+     "start": "Tue Mar 10 07:18",
+     "end": "Tue Mar 10 08:18",
+     "hours": 1,
+     "peak": 1.582,
+     "report": null
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,3 @@
+# The platform calls use only the standard library
+numpy>=1.26
+pandas>=2.1
