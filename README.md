@@ -141,6 +141,8 @@ Every platform script prints the endpoint and the key's last 4 characters it use
 endpoint can be the bare deployment root or end in `/api`. `od` is available on production
 (`https://platform.u1.archetypeai.app`) as of November 2026.
 
+**On the free trial** (`ATAI_API_ENDPOINT=https://try.archetypeai.app/api`): the Label-Free Anomaly Discovery agent (`od`) is available there too (as of November 2026), so the same commands should work with a free-trial key. This example was measured on production and hasn't been run on the free trial, where an organization runs at most 3 jobs at once and every job stops after 2 hours (see the [OSM quickstart's notes on the free trial](https://github.com/archetypeai/operational-state-monitoring-agent-example-larco-quickstart#on-the-free-trial)), so expect different timings.
+
 **Skip to Stage 2.** The three input files are already prepared and in the repo
 (`data/prepared/metropt_{A,B,C}.csv`), so you don't need to download or prepare anything:
 
